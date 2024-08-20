@@ -39,8 +39,3 @@ button:hover {
 button:active {
   opacity: 0.95;
 }
-
-button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}

@@ -1,16 +1,10 @@
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
-import MainCounter from "./component/MainCounter";
-import UserState from "./component/UserState";
+import ManualForm from "./component/ManualForm";
 
 function App() {
   return (
-    <Provider store={store}>
-      <div>
-        <UserState />
-        <MainCounter />
-      </div>
-    </Provider>
+    <div className="container py-20">
+      <ManualForm />
+    </div>
   );
 }
 
