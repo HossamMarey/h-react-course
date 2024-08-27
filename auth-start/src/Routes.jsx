@@ -1,18 +1,18 @@
-import { createBrowserRouter, Outlet, RouterProvider , redirect } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+  redirect,
+} from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import BlogPage from "./pages/BlogPage";
 import MainLayout from "./pages/MainLayout";
 import PostPage from "./pages/PostPage";
 import LoginPage from "./pages/LoginPage";
-import { useToken } from "./App";
 import { useMemo } from "react";
+import CreatePostPage from "./pages/CreatePostPage";
 
 const Routes = () => {
-  const { token } = useToken();
-
-
-  
-
   const router = useMemo(() => {
     return createBrowserRouter([
       {
@@ -26,7 +26,13 @@ const Routes = () => {
           },
           {
             path: "/blog",
-            element: token?  <BlogPage /> : redirect('./'),
+            element: <BlogPage />,
+            // loader: blogLoader,
+          },
+
+          {
+            path: "/blog/create",
+            element: <CreatePostPage />,
             // loader: blogLoader,
           },
           {
@@ -37,11 +43,7 @@ const Routes = () => {
       },
       {
         path: "/",
-        element: (
-          <div>
-            Extra <Outlet />
-          </div>
-        ),
+        element: <Outlet />,
         children: [{ path: "/login", element: <LoginPage /> }],
       },
     ]);
