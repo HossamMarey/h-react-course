@@ -4,9 +4,14 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import cookies from "js-cookie";
+import clientApi from "../../services/api/clientApi";
+import { useAuth } from "../../services/context/AuthContext";
+import { TOKEN } from "../../services/constant";
 const MainLogin = () => {
   const navigate = useNavigate();
+
+  const { getUserData } = useAuth();
 
   const formik = useFormik({
     validateOnMount: false,
@@ -21,7 +26,22 @@ const MainLogin = () => {
     }),
     onSubmit: async (values) => {
       ///
-      console.log(values);
+      try {
+        const res = await clientApi.post("/auth/login", values);
+        if (res?.data?.token) {
+          cookies.set(TOKEN, res.data.token, {
+            expires: 30,
+          });
+          clientApi.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${res.data.token}`;
+          getUserData();
+          navigate("/blog/create");
+        }
+        console.log(res.data);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 

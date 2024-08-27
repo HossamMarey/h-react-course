@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../../services/context/AuthContext";
 
 const MainHeader = () => {
+  const { logout, isAuth } = useAuth();
   return (
     <header className="bg-black">
       <div className="container py-2 flex justify-between">
@@ -44,14 +46,22 @@ const MainHeader = () => {
               </NavLink>
             </li>
 
-            <li>
-              <NavLink
-                to="/login"
-                className={({ isActive }) => (isActive ? "text-amber-500" : "")}
-              >
-                Login
-              </NavLink>
-            </li>
+            {isAuth ? (
+              <li>
+                <button onClick={() => logout()}>Logout</button>
+              </li>
+            ) : (
+              <li>
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive ? "text-amber-500" : ""
+                  }
+                >
+                  Login
+                </NavLink>
+              </li>
+            )}
           </ul>
         </nav>
       </div>

@@ -11,8 +11,10 @@ import PostPage from "./pages/PostPage";
 import LoginPage from "./pages/LoginPage";
 import { useMemo } from "react";
 import CreatePostPage from "./pages/CreatePostPage";
+import { useAuth } from "./services/context/AuthContext";
 
 const Routes = () => {
+  const { isAuth } = useAuth();
   const router = useMemo(() => {
     return createBrowserRouter([
       {
@@ -32,7 +34,7 @@ const Routes = () => {
 
           {
             path: "/blog/create",
-            element: <CreatePostPage />,
+            element: isAuth ? <CreatePostPage /> : <> </>,
             // loader: blogLoader,
           },
           {
@@ -43,11 +45,11 @@ const Routes = () => {
       },
       {
         path: "/",
-        element: <Outlet />,
+        element: isAuth ? <Outlet /> : <></>,
         children: [{ path: "/login", element: <LoginPage /> }],
       },
     ]);
-  }, []);
+  }, [isAuth]);
 
   return <RouterProvider router={router} />;
 };
